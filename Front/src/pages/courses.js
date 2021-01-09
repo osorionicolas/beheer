@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CustomPagination } from './custom-components'
+import { CustomPagination } from '../components/custom-components'
 import {
     List as AdminList,
     Datagrid,
@@ -8,8 +8,6 @@ import {
     Edit,
 	Create,
     SimpleForm,
-    ReferenceInput,
-    SelectInput,
     TextInput,
     Filter,
     NumberField,

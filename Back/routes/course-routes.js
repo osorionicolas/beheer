@@ -2,9 +2,11 @@
 
 const router = require('express').Router()
 const {
-    getCourses,
-    getCourse,
-    getCourseById
+      createCourse,
+      getCourses,
+      getCourse,
+      getCourseById,
+      updateCourse
 } = require('../controllers/course-controller')
 
 const skipIfQuery = (middleware) => {
@@ -17,8 +19,10 @@ const skipIfQuery = (middleware) => {
 
 router.route("/cursos")
       .get(skipIfQuery(getCourses), getCourseById)
+      .post(createCourse)
 
 router.route("/cursos/:id")
       .get(getCourse)
+      .put(updateCourse)
 
 module.exports = router

@@ -29,13 +29,18 @@ const getCourseById = (req, res) => {
         .catch(error => utils.handleError(res, error))
 }
 
-const updateUser = (req, res) => {
+const updateCourse = (req, res) => {
     
 }
 
+const createCourse = (req, res) => {
+
+}
+
 module.exports = {
+    createCourse,
 	getCourses,
     getCourse,
     getCourseById,
-    updateUser
+    updateCourse
 }

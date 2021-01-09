@@ -27,6 +27,14 @@ const filterQuery = (value, fields) => (query) => {
 	}
 }
 
+const updateQuery = (table) => {
+	const query = knex(table).update()
+}
+
+const insertQuery = (table) => {
+	const query = knex(table).insert()
+}
+
 const getAll = async (res, query, countQuery) => {
 	try {
         const count = await get(countQuery)
@@ -62,11 +70,13 @@ const callback = (res, result, total) => {
 
 module.exports = {
     callback,
-	get,
 	createGetAllQuery,
 	createGetOneQuery,
 	createCountQuery,
-	handleError,
+	filterQuery,
+	get,
 	getAll,
-	filterQuery
+	handleError,
+	insertQuery,
+	updateQuery
 }
