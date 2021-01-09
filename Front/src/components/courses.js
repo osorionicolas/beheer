@@ -1,4 +1,5 @@
-import * as React from "react";
+import * as React from 'react'
+import { CustomPagination } from './custom-components'
 import {
     List as AdminList,
     Datagrid,
@@ -12,12 +13,14 @@ import {
     TextInput,
     Filter,
     NumberField,
-    NumberInput
-} from 'react-admin';
+    NumberInput,
+    useListContext,
+    TopToolbar,
+    CreateButton,
+    sanitizeListRestProps
+} from 'react-admin'
 
-const CourseTitle = ({ record }) => {
-    return <span>Course {record ? `"${record.title}"` : ''}</span>;
-};
+const CourseTitle = ({ record }) => <span>Course {record ? `"${record.title}"` : ''}</span>
 
 const CourseFilter = (props) => (
     <Filter {...props}>
@@ -26,13 +29,19 @@ const CourseFilter = (props) => (
             <SelectInput optionText="name" />
         </ReferenceInput>
     </Filter>
-);
-
+)
 
 export const CourseList = props => (
-    <AdminList title="Cursos" filters={<CourseFilter />} exporter={false} {...props}>
+    <AdminList 
+        title="Cursos" 
+        filters={<CourseFilter />} 
+        actions={<ListActions />} 
+        exporter={false} 
+        pagination={<CustomPagination rowsPerPageOptions={[10, 20, 30]} />} 
+        perPage={20} 
+        {...props}
+    >
         <Datagrid>
-            <TextField source="id" optionValue="c_registro" label="ID" />
             <TextField source="c_curso" label="Curso" />
             <TextField source="c_horario" label="Horario" />
             <TextField source="c_cuota" label="Cuota" />
@@ -43,33 +52,48 @@ export const CourseList = props => (
             <EditButton />
         </Datagrid>
     </AdminList>
-);
+)
 
 export const CourseEdit = props => (
     <Edit title={<CourseTitle />} {...props}>
         <SimpleForm>
-            <TextInput disabled source="id" label="ID" />
-            <TextInput source="course" label="Curso" />
-            <TextInput source="title" label="Horario" />
-            <TextInput source="title" label="Cuota" />
-            <NumberInput source="exam" label="Matrícula" min={0} />
-            <NumberInput source="exam" label="Derecho Examen" min={0} />
-            <NumberInput source="exam" label="Examen Repetido" min={0} />
-            <NumberInput source="exam" label="Examen Libre" min={0} />
+            <TextInput source="c_curso" label="Curso" />
+            <TextInput source="c_horario" label="Horario" />
+            <TextInput source="c_cuota" label="Cuota" />
+            <NumberInput source="c_matricula" label="Matrícula" min={0} />
+            <NumberInput source="c_derecho_examen" label="Derecho Examen" min={0} />
+            <NumberInput source="c_examen_repetido" label="Examen Repetido" min={0} />
+            <NumberInput source="c_examen_libre" label="Examen Libre" min={0} />
         </SimpleForm>
     </Edit>
-);
+)
 
 export const CourseCreate = props => (
     <Create title="Alta Curso" {...props}>
         <SimpleForm>
-            <TextInput source="course" label="Curso" />
-            <TextInput source="title" label="Horario" />
-            <TextInput source="title" label="Cuota" />
-            <NumberInput source="exam" label="Matrícula" min={0} />
-            <NumberInput source="exam" label="Derecho Examen" min={0} />
-            <NumberInput source="exam" label="Examen Repetido" min={0} />
-            <NumberInput source="exam" label="Examen Libre" min={0} />
+            <TextInput source="c_curso" label="Curso" />
+            <TextInput source="c_horario" label="Horario" />
+            <TextInput source="c_cuota" label="Cuota" />
+            <NumberInput source="c_matricula" label="Matrícula" min={0} />
+            <NumberInput source="c_derecho_examen" label="Derecho Examen" min={0} />
+            <NumberInput source="c_examen_repetido" label="Examen Repetido" min={0} />
+            <NumberInput source="c_examen_libre" label="Examen Libre" min={0} />
         </SimpleForm>
     </Create>
-);
+)
+
+const ListActions = (props) => {
+    const {
+        className,
+        ...rest
+    } = props;
+    const {
+        basePath
+    } = useListContext();
+
+    return (
+        <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
+            <CreateButton basePath={basePath} label='Alta Curso'/>
+        </TopToolbar>
+    );
+};

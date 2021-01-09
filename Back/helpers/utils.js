@@ -1,4 +1,5 @@
 'use strict'
+const knex = require('../configs/database');
 
 const getParameters = (req) => {
 	const order = req.query._order
@@ -8,25 +9,46 @@ const getParameters = (req) => {
 	return { 'order': order, 'sort': sort, 'start': start, 'end': end }
 }
 
-const callback = (res, result, total) => {
-	res.setHeader("X-Total-Count", total || result.length)
-	res.setHeader("Access-Control-Expose-Headers", "*")
-	res.send(result) 
+const createGetOneQuery = (table, parameters) => {
+	const key = Object.keys(parameters)[0];
+	const value = Number(parameters[key]);
+	return knex(table).where(key, value)
+}
+
+const createGetAllQuery = (table, parameters) => {
+	return knex(table)
+			.orderBy(parameters.sort, parameters.order)
+			.limit(parameters.end - parameters.start)
+			.offset(parameters.start)
+}
+
+const getCount = async (table) => {
+    const countQuery = knex(table).count('*', {as: 'total'})
+	const count = await get(countQuery)
+	return count[0].total
 }
 
 const get = async (query) => {
 	console.log(`Executing query: ${query}`)
 	try {
-		const rows = await query
-		return rows
+		return await query
 	}
 	catch(error) {
 		throw "Failed to connect to database."
 	}
 }
 
+const callback = (res, result, total) => {
+	if(total) res.setHeader("X-Total-Count", total)
+	res.setHeader("Access-Control-Expose-Headers", "*")
+	res.send(result) 
+}
+
 module.exports = {
     getParameters,
     callback,
-    get
+	get,
+	createGetAllQuery,
+	createGetOneQuery,
+	getCount
 }

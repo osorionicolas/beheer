@@ -1,19 +1,13 @@
 'use strict'
 
 const utils = require('../helpers/utils')
-const knex = require('../configs/database');
 
 const getUsers = async (req, res, next) => {
-    const filter = req.query.filter
+    const filter = req.query.q
+    console.log("Filter: " + filter)
 	const parameters = utils.getParameters(req)
-    const query = 
-        knex('alumnos2')
-            .orderBy(parameters.sort, parameters.order)
-            .limit(parameters.end - parameters.start)
-            .offset(parameters.start)
-    const countQuery = knex('alumnos2').count('*', {as: 'total'})
-    const count = await utils.get(countQuery)
-    const total = count[0].total
+    const query = utils.createGetAllQuery('alumnos2', parameters)
+    const total = await utils.getCount('alumnos2')
     utils.get(query)
         .then(result => utils.callback(res, result, total))
         .catch(error => {
@@ -22,6 +16,18 @@ const getUsers = async (req, res, next) => {
         })
 }
 
+const getUser = (req, res, next) => {
+    const params = req.params
+    const query = utils.createGetOneQuery('alumnos2', params)
+    utils.get(query)
+        .then(result => utils.callback(res, result[0]))
+        .catch(error => {
+            console.error(error)
+            res.status(500).send({"message": error})
+        })
+}
+
 module.exports = {
-    getUsers
+    getUsers,
+    getUser
 }

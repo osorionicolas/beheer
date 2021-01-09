@@ -1,5 +1,6 @@
 import * as React from "react";
-import { cloneElement } from 'react';
+import { cloneElement } from 'react'
+import { CustomPagination, CustomUrlField } from './custom-components'
 import {
     List as AdminList,
     Datagrid,
@@ -18,34 +19,39 @@ import {
     ExportButton,
     sanitizeListRestProps,
     ReferenceField,
-    Pagination
+    BulkDeleteButton
 } from 'react-admin';
-import CustomUrlField from "./CustomUrlField";
 
-const UserTitle = ({ record }) => <span>Alumno {record ? `"${record.name}"` : ''}</span>;
+const UserTitle = ({ record }) => <span>Alumno {record ? `"${record.name}"` : ''}</span>
 
-const CustomPagination = props => <Pagination rowsPerPageOptions={[15, 30, 45, 60]} {...props} />
+const PostBulkActionButtons = props => <BulkDeleteButton label="Dar de baja" {...props} />
 
 const UserFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Buscar" source="q" alwaysOn />
-        <ReferenceInput label="Alumno" source="userId" reference="users" allowEmpty>
-            <SelectInput optionText="name" />
+        <ReferenceInput label="Curso" source="c_curso" reference="cursos" allowEmpty>
+            <SelectInput optionText="c_curso" />
         </ReferenceInput>
     </Filter>
 );
 
 export const UserList = props => (
-    <AdminList filters={<UserFilter />} actions={<ListActions />} pagination={<CustomPagination />} perPage={30} {...props}>
+    <AdminList 
+        filters={<UserFilter />} 
+        actions={<ListActions />} 
+        bulkActionButtons={<PostBulkActionButtons />} 
+        pagination={<CustomPagination rowsPerPageOptions={[15, 30, 45, 60]} />} 
+        perPage={30} 
+        {...props}
+    >
         <Datagrid>
-            <TextField source="id" label="ID" />
             <TextField source="a_legajo" label="Legajo" />
             <TextField source="a_apellido" label="Apellido" />
             <TextField source="a_nombres" label="Nombres" />
             <TextField source="a_dni" label="DNI" />
             <CustomUrlField source="a_email_factura" label="Email" />
             <TextField source="a_domicilio" label="Domicilio" />
-            <EditButton />
+            <EditButton label="Editar" />
         </Datagrid>
     </AdminList>
 );
@@ -58,12 +64,11 @@ export const UserList = props => (
 export const UserEdit = props => (
     <Edit title={<UserTitle />} {...props}>
         <SimpleForm>
-            <TextInput disabled source="id" />
-            <TextInput source="a_apellido" />
-            <TextInput source="username" />
-            <TextInput source="a_email_factura" />
-            <TextInput source="a_domicilio" />
-            <TextInput source="phone" />
+            <TextInput disabled source="a_legajo" label="Legajo" />
+            <TextInput source="a_apellido" label="Apellido" />
+            <TextInput source="a_email_factura" label="Email" />
+            <TextInput source="a_domicilio"  label="Domicilio" />
+            <TextInput source="phone" label="Teléfono" />
         </SimpleForm>
     </Edit>
 );
@@ -107,7 +112,7 @@ const ListActions = (props) => {
                 filterValues,
                 context: 'button',
             })}
-            <CreateButton basePath={basePath} title='Alta Alumno'/>
+            <CreateButton basePath={basePath} label='Alta Alumno'/>
             <ExportButton
                 label='Exportar'
                 disabled={total === 0}

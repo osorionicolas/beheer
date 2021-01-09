@@ -1,8 +1,11 @@
 import * as React from "react";
+import {
+    Pagination
+} from 'react-admin'
 
-const CustomUrlField = ({ record = {}, source }) =>
+export const CustomUrlField = ({ record = {}, source }) =>
     <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${record[source]}`} target="_blank" rel="noreferrer">
         {record[source]}
     </a>;
 
-export default CustomUrlField;
+export const CustomPagination = props => <Pagination {...props} />
