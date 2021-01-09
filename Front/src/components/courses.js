@@ -31,15 +31,15 @@ const CourseFilter = (props) => (
 
 export const CourseList = props => (
     <AdminList title="Cursos" filters={<CourseFilter />} exporter={false} {...props}>
-        <Datagrid rowClick="edit">
-            <TextField source="id" label="ID" />
-            <TextField source="title" label="Curso" />
-            <TextField source="title" label="Horario" />
-            <TextField source="title" label="Cuota" />
-            <NumberField source="title" label="Matrícula" options={{ style: 'currency', currency: 'USD' }} />
-            <NumberField source="title" label="Derecho Examen" options={{ style: 'currency', currency: 'USD' }} />
-            <NumberField source="title" label="Examen Repetido" options={{ style: 'currency', currency: 'USD' }} />
-            <NumberField source="title" label="Examen Libre" options={{ style: 'currency', currency: 'USD' }} />
+        <Datagrid>
+            <TextField source="id" optionValue="c_registro" label="ID" />
+            <TextField source="c_curso" label="Curso" />
+            <TextField source="c_horario" label="Horario" />
+            <TextField source="c_cuota" label="Cuota" />
+            <NumberField source="c_matricula" label="Matrícula" options={{ style: 'currency', currency: 'USD' }} />
+            <NumberField source="c_derecho_examen" label="Derecho Examen" options={{ style: 'currency', currency: 'USD' }} />
+            <NumberField source="c_examen_repetido" label="Examen Repetido" options={{ style: 'currency', currency: 'USD' }} />
+            <NumberField source="c_examen_libre" label="Examen Libre" options={{ style: 'currency', currency: 'USD' }} />
             <EditButton />
         </Datagrid>
     </AdminList>

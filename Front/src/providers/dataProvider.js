@@ -1,7 +1,7 @@
 import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
 
-const apiUrl = 'https://my.api.com/';
+const apiUrl = 'http://localhost:5000';
 const httpClient = fetchUtils.fetchJson;
 
 export default {
@@ -15,10 +15,13 @@ export default {
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-        return httpClient(url).then(({ headers, json }) => ({
+        return httpClient(url).then(({ headers, json }) => {
+            console.log(json)
+            return {
             data: json,
-            total: parseInt(headers.get('content-range').split('/').pop(), 10),
-        }));
+            total: parseInt(headers.get('X-Total-Count').split('/').pop(), 10),
+            }
+        })
     },
 
     getOne: (resource, params) =>
