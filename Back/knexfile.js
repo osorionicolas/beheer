@@ -7,8 +7,7 @@ module.exports = {
 		host: 'localhost',
 		user: 'root',
 		database: 'instituto_electronico'
-	},
-	debug: true
+	}
   },
   production: {
     client: 'mysql2',
@@ -16,7 +15,6 @@ module.exports = {
 		host: 'localhost',
 		user: 'root',
 		database: 'instituto_electronico'
-	},
-	debug: true
+	}
   }
 }

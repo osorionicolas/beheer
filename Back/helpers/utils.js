@@ -1,13 +1,5 @@
 'use strict'
-const knex = require('../configs/database');
-
-const getParameters = (req) => {
-	const order = req.query._order
-	const sort = req.query._sort
-	const start = req.query._start
-	const end = req.query._end
-	return { 'order': order, 'sort': sort, 'start': start, 'end': end }
-}
+const knex = require('../configs/database')
 
 const createGetOneQuery = (table, parameters) => {
 	const key = Object.keys(parameters)[0];
@@ -16,16 +8,35 @@ const createGetOneQuery = (table, parameters) => {
 }
 
 const createGetAllQuery = (table, parameters) => {
-	return knex(table)
-			.orderBy(parameters.sort, parameters.order)
-			.limit(parameters.end - parameters.start)
-			.offset(parameters.start)
+	let query = knex(table)
+	if(parameters._sort && parameters._order) query.orderBy(parameters._sort, parameters._order)
+	if(parameters._end && parameters._start) query.limit(parameters._end - parameters._start).offset(parameters._start)
+	return query
 }
 
-const getCount = async (table) => {
-    const countQuery = knex(table).count('*', {as: 'total'})
-	const count = await get(countQuery)
-	return count[0].total
+const createCountQuery = (table) => knex(table).count('*', {as: 'total'})
+
+const filterQuery = (value, fields) => (query) => {
+	if(value && fields.length > 0) {
+		fields.forEach(
+			field => 
+				query.orWhere(
+					knex.raw( `UPPER(${field}) LIKE ?`, `%${value.toUpperCase()}%` )
+				)
+		)
+	}
+}
+
+const getAll = async (res, query, countQuery) => {
+	try {
+        const count = await get(countQuery)
+        const total = count[0].total
+        const result = await get(query)
+        callback(res, result, total)
+    }
+    catch(error) {
+        handleError(res, error)
+    }
 }
 
 const get = async (query) => {
@@ -38,17 +49,24 @@ const get = async (query) => {
 	}
 }
 
+const handleError = (res, error, status = 500) => {
+	console.error(error)
+    res.status(status).send({"message": error})
+}
+
 const callback = (res, result, total) => {
-	if(total) res.setHeader("X-Total-Count", total)
+	res.setHeader("X-Total-Count", total || result.length)
 	res.setHeader("Access-Control-Expose-Headers", "*")
 	res.send(result) 
 }
 
 module.exports = {
-    getParameters,
     callback,
 	get,
 	createGetAllQuery,
 	createGetOneQuery,
-	getCount
+	createCountQuery,
+	handleError,
+	getAll,
+	filterQuery
 }

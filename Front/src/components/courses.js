@@ -20,14 +20,11 @@ import {
     sanitizeListRestProps
 } from 'react-admin'
 
-const CourseTitle = ({ record }) => <span>Course {record ? `"${record.title}"` : ''}</span>
+const CourseTitle = ({ record }) => <span>Course {record ? `"${record.c_curso}"` : ''}</span>
 
 const CourseFilter = (props) => (
     <Filter {...props}>
         <TextInput label="Buscar" source="q" alwaysOn />
-        <ReferenceInput label="User" source="userId" reference="users" allowEmpty>
-            <SelectInput optionText="name" />
-        </ReferenceInput>
     </Filter>
 )
 
@@ -49,7 +46,7 @@ export const CourseList = props => (
             <NumberField source="c_derecho_examen" label="Derecho Examen" options={{ style: 'currency', currency: 'USD' }} />
             <NumberField source="c_examen_repetido" label="Examen Repetido" options={{ style: 'currency', currency: 'USD' }} />
             <NumberField source="c_examen_libre" label="Examen Libre" options={{ style: 'currency', currency: 'USD' }} />
-            <EditButton />
+            <EditButton label="Editar" />
         </Datagrid>
     </AdminList>
 )
@@ -95,5 +92,5 @@ const ListActions = (props) => {
         <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
             <CreateButton basePath={basePath} label='Alta Curso'/>
         </TopToolbar>
-    );
-};
+    )
+}

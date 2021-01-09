@@ -11,5 +11,7 @@ router.route("/alumnos")
 
 router.route("/alumnos/:id")
       .get(getUser)
+      .delete(deregisterUser)
+      .update(updateUser)
 
 module.exports = router

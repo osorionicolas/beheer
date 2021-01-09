@@ -1,44 +1,41 @@
 'use strict'
 
 const utils = require('../helpers/utils')
+const table = 'cursos2'
 
-const getCourses = async (req, res, next) => {
-    console.log("GET COURSES")
-	const filter = req.query.q
-	console.log("Filter: " + filter)
-
-	const parameters = utils.getParameters(req)
-	const query = utils.createGetAllQuery('cursos2', parameters)
-	const total = await utils.getCount('cursos2')
-	utils.get(query).then(result => utils.callback(res, result, total))
+const getCourses = (req, res) => {
+    const fields = ['c_curso', 'c_horario']
+    const filterQuery = utils.filterQuery(req.query.q, fields)
+    const query = utils.createGetAllQuery(table, req.query)
+    filterQuery(query)
+    const countQuery = utils.createCountQuery(table)
+    filterQuery(countQuery)
+    utils.getAll(res, query, countQuery)
 }
 
-const getCourse = (req, res, next) => {
-    console.log("GET COURSE")
+const getCourse = (req, res) => {
     const params = req.params
-    const query = utils.createGetOneQuery('cursos2', params)
+    const query = utils.createGetOneQuery(table, params)
     utils.get(query)
-        .then(result => utils.callback(res, result[0]))
-        .catch(error => {
-            console.error(error)
-            res.status(500).send({"message": error})
-        })
+        .then(result => utils.callback(res, result[0], 1))
+        .catch(error => utils.handleError(res, error))
 }
 
-const getCourseById = (req, res, next) => {
-    console.log("GET COURSE BY ID")
+const getCourseById = (req, res) => {
     const id = { "id": req.query.id }
-    const query = utils.createGetOneQuery('cursos2', id)
+    const query = utils.createGetOneQuery(table, id)
     utils.get(query)
-        .then(result => utils.callback(res, result[0]))
-        .catch(error => {
-            console.error(error)
-            res.status(500).send({"message": error})
-        })
+        .then(result => utils.callback(res, result[0], 1))
+        .catch(error => utils.handleError(res, error))
+}
+
+const updateUser = (req, res) => {
+    
 }
 
 module.exports = {
 	getCourses,
     getCourse,
-    getCourseById
+    getCourseById,
+    updateUser
 }

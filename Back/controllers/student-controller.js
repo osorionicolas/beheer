@@ -1,33 +1,38 @@
 'use strict'
 
 const utils = require('../helpers/utils')
+const table = 'alumnos2'
 
-const getUsers = async (req, res, next) => {
-    const filter = req.query.q
-    console.log("Filter: " + filter)
-	const parameters = utils.getParameters(req)
-    const query = utils.createGetAllQuery('alumnos2', parameters)
-    const total = await utils.getCount('alumnos2')
-    utils.get(query)
-        .then(result => utils.callback(res, result, total))
-        .catch(error => {
-            console.error(error)
-            res.status(500).send({"message": error})
-        })
+const getUsers = (req, res) => {
+    const fields = ['a_legajo', 'a_apellido', 'a_mama', 'a_papa']
+    const filterQuery = utils.filterQuery(req.query.q, fields)
+    const query = utils.createGetAllQuery(table, req.query)
+    filterQuery(query)
+    const countQuery = utils.createCountQuery(table)
+    filterQuery(query)
+    utils.getAll(res, query, countQuery)
 }
 
-const getUser = (req, res, next) => {
+const getUser = (req, res) => {
     const params = req.params
-    const query = utils.createGetOneQuery('alumnos2', params)
+    const query = utils.createGetOneQuery(table, params)
     utils.get(query)
-        .then(result => utils.callback(res, result[0]))
-        .catch(error => {
-            console.error(error)
-            res.status(500).send({"message": error})
-        })
+        .then(result => utils.callback(res, result[0], 1))
+        .catch(error => utils.handleError(res, error))
 }
+
+const deregisterUser = (req, res) => {
+
+}
+
+const updateUser = (req, res) => {
+    
+}
+
 
 module.exports = {
+    deregisterUser,
     getUsers,
-    getUser
+    getUser,
+    updateUser
 }
