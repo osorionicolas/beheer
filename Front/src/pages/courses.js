@@ -18,7 +18,7 @@ import {
     sanitizeListRestProps
 } from 'react-admin'
 
-const CourseTitle = ({ record }) => <span>Course {record ? `"${record.c_curso}"` : ''}</span>
+const CourseTitle = ({ record }) => <span>Curso {record ? `"${record.c_curso}"` : ''}</span>
 
 const CourseFilter = (props) => (
     <Filter {...props}>
@@ -64,7 +64,7 @@ export const CourseEdit = props => (
 )
 
 export const CourseCreate = props => (
-    <Create title="Alta Curso" {...props}>
+    <Create title="Alta de Curso" {...props}>
         <SimpleForm>
             <TextInput source="c_curso" label="Curso" />
             <TextInput source="c_horario" label="Horario" />
