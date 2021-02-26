@@ -52,7 +52,7 @@ const DeleteButton = props => <Button startIcon={<PersonAddDisabledIcon />} styl
 const UserFilter = (props) => (
     <Filter label="Filtros" {...props}>
         <TextInput label="Buscar" source="q" alwaysOn />
-        <ReferenceInput label="Curso" source="a_curso" reference="cursos" allowEmpty>
+        <ReferenceInput label="Curso" source="a_curso" reference="cursos" alwaysOn>
             <SelectInput optionText="c_curso" />
         </ReferenceInput>
     </Filter>
@@ -414,7 +414,7 @@ const ListActions = (props) => {
                 filterValues,
                 context: 'button',
             })}
-            <CreateButton basePath={basePath} label='Alta Alumno' />
+            <CreateButton basePath={basePath} label='Alta de alumno' />
             <ExportButton
                 label='Exportar'
                 disabled={total === 0}

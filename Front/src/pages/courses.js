@@ -26,6 +26,7 @@ const CourseFilter = (props) => (
     </Filter>
 )
 
+//TODO Revisar los currency
 export const CourseList = props => (
     <AdminList 
         title="Cursos" 
@@ -88,7 +89,7 @@ const ListActions = (props) => {
 
     return (
         <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
-            <CreateButton basePath={basePath} label='Alta Curso'/>
+            <CreateButton basePath={basePath} label='Alta de curso'/>
         </TopToolbar>
     )
 }

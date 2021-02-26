@@ -1,8 +1,13 @@
 {
   "dependencies": {
+    "@afipsdk/afip.js": "^0.7.0",
     "cors": "^2.8.5",
+    "ejs": "^2.5.9",
     "express": "^4.17.1",
+    "html-pdf": "^2.2.0",
+    "jsbarcode": "^3.11.3",
     "knex": "^0.21.15",
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.2.5",
+    "pino-pretty": "^4.3.0"
   }
 }
