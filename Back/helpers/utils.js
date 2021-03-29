@@ -2,9 +2,9 @@
 const knex = require('../configs/database')
 
 const createGetOneQuery = (table, parameters) => {
-	const key = Object.keys(parameters)[0];
-	const value = Number(parameters[key]);
-	return knex(table).where(key, value)
+	for(let key in parameters){
+		return knex(table).where(key, parameters[key])
+	}
 }
 
 const createGetAllQuery = (table, parameters) => {
@@ -12,27 +12,6 @@ const createGetAllQuery = (table, parameters) => {
 	if(parameters._sort && parameters._order) query.orderBy(parameters._sort, parameters._order)
 	if(parameters._end && parameters._start) query.limit(parameters._end - parameters._start).offset(parameters._start)
 	return query
-}
-
-const createCountQuery = (table) => knex(table).count('*', {as: 'total'})
-
-const filterQuery = (value, fields) => (query) => {
-	if(value && fields.length > 0) {
-		fields.forEach(
-			field => 
-				query.orWhere(
-					knex.raw( `UPPER(${field}) LIKE ?`, `%${value.toUpperCase()}%` )
-				)
-		)
-	}
-}
-
-const updateQuery = (table) => {
-	const query = knex(table).update()
-}
-
-const insertQuery = (table) => {
-	const query = knex(table).insert()
 }
 
 const getAll = async (res, query, countQuery) => {
@@ -53,6 +32,7 @@ const get = async (query) => {
 		return await query
 	}
 	catch(error) {
+		console.log(error)
 		throw "Failed to connect to database."
 	}
 }
@@ -63,6 +43,7 @@ const handleError = (res, error, status = 500) => {
 }
 
 const callback = (res, result, total) => {
+	console.log(`Total: ${total}`)
 	res.setHeader("X-Total-Count", total || result.length)
 	res.setHeader("Access-Control-Expose-Headers", "*")
 	res.send(result) 
@@ -72,11 +53,7 @@ module.exports = {
     callback,
 	createGetAllQuery,
 	createGetOneQuery,
-	createCountQuery,
-	filterQuery,
 	get,
 	getAll,
-	handleError,
-	insertQuery,
-	updateQuery
+	handleError
 }

@@ -1,15 +1,16 @@
 'use strict'
 
 const utils = require('../helpers/utils')
+const service = require('../services/student-service')
 const table = 'alumnos2'
 
 const getUsers = (req, res) => {
     const fields = ['a_legajo', 'a_apellido', 'a_mama', 'a_papa']
-    const filterQuery = utils.filterQuery(req.query.q, fields)
+    const filterQuery = service.filterQuery(req.query, fields)
     const query = utils.createGetAllQuery(table, req.query)
     filterQuery(query)
-    const countQuery = utils.createCountQuery(table)
-    filterQuery(query)
+    const countQuery = service.getCount(table)
+    filterQuery(countQuery)
     utils.getAll(res, query, countQuery)
 }
 
