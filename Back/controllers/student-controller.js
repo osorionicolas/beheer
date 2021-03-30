@@ -18,7 +18,7 @@ const getUser = (req, res) => {
     const params = req.params
     const query = utils.createGetOneQuery(table, params)
     utils.get(query)
-        .then(result => utils.callback(res, result[0], 1))
+        .then(result => utils.callback(res, result[0], result?.length || 0))
         .catch(error => utils.handleError(res, error))
 }
 
@@ -30,8 +30,11 @@ const updateUser = (req, res) => {
     
 }
 
-const createUser = (req, res) => {
-
+const createUser = async (req, res) => {
+    const studentId = await service.createStudent(req.body)
+    res.statusCode = 201
+    console.log(studentId)
+    res.send(studentId)
 }
 
 module.exports = {

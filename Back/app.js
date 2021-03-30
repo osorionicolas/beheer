@@ -1,12 +1,14 @@
 'use strict'
 
-const app	= require("express")()
+const express = require('express')
+const app	= express()
 const cors	= require('cors')
 
 const hostname	= '127.0.0.1'
 const port		= 5000
 
 app.use(cors())
+app.use(express.json());
 
 app.use('/', [
 	require('./routes/student-routes'),

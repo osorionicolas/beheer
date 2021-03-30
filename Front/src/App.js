@@ -12,8 +12,6 @@ import MyLayout from "./components/Layout"
 import customRoutes from "./customRoutes"
 import FeeIcon from '@material-ui/icons/DynamicFeed';
 
-const dataProvider = jsonServerProvider('http://localhost:5000')
-
 const App = () => (
     <Admin 
         customRoutes={customRoutes} 
@@ -21,7 +19,7 @@ const App = () => (
         disableTelemetry 
         dashboard={Dashboard} 
         authProvider={authProvider} 
-        dataProvider={dataProvider} 
+        dataProvider={jsonServerProvider('http://localhost:5000')} 
     >
 	    <Resource name="cursos" options={{ label: 'Cursos' }} list={CourseList} edit={CourseEdit} create={CourseCreate} icon={CourseIcon} />
 		<Resource name="alumnos" options={{ label: 'Alumnos' }} list={UserList} edit={UserEdit} create={UserCreate} icon={UserIcon} />

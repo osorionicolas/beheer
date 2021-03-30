@@ -15,6 +15,17 @@ const StudentRepository = {
 
     count(){
         return table.count('*', {as: 'total'})
+    },
+    
+    async execute(query){
+        console.log(`Executing query: ${query}`)
+        try {
+            return await query
+        }
+        catch(error) {
+            console.error(error)
+            throw "Failed to connect to database."
+        }
     }
 
 }

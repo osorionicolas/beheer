@@ -33,7 +33,12 @@ import {
     FormTab,
     NumberInput,
     DateInput,
-    required
+    required,
+    useNotify,
+    useRefresh,
+    useRedirect,
+    SaveButton,
+    Toolbar
 } from 'react-admin'
 
 const useStyles = makeStyles({
@@ -44,8 +49,7 @@ const useStyles = makeStyles({
         width: "100%",
         marginBottom: "2% !important"
     },
-  });
-  
+})
 
 const UserTitle = ({ record }) => <span>Alumno: {record ? record.a_apellido : ''}</span>
 const DeleteButton = props => <Button startIcon={<PersonAddDisabledIcon />} style={{color: "red"}} onClick={() => console.log("Soy un boton")} label="Dar de baja" />
@@ -255,12 +259,20 @@ export const UserEdit = props => {
     )
 }
 
+
+const CreateToolbar = props => (
+    <Toolbar {...props}>
+        <SaveButton label="ALTA" onClick={console.log("create")} />
+    </Toolbar>
+)
+
+
 export const UserCreate = props => {
     const classes = useStyles()
 
     return(
-        <Create title="Alta de Alumno" onFailure="Test" {...props}>
-            <TabbedForm>
+        <Create title="Alta de Alumno" {...props}>
+            <TabbedForm >
                 <FormTab label="General">
                     <Grid container spacing={2} style={{ width: "100%" }}>
                         <Grid item xs={4}>
@@ -280,8 +292,9 @@ export const UserCreate = props => {
                             <TextInput fullWidth={true} source="a_nombres" validate={required("Requerido")} label="Nombres" />
                             <TextInput fullWidth={true} source="a_dni" validate={required("Requerido")} label="DNI" />
                             <TextInput fullWidth={true} source="a_localidad" validate={required("Requerido")} label="Localidad" />
-                            <SelectInput fullWidth={true} source="a_curso" label="Curso" validate={required("Requerido")} choices={[
-                            ]} />
+                            <ReferenceInput fullWidth={true} label="Curso" source="a_curso" reference="cursos" alwaysOn>
+                                <SelectInput optionText="c_curso" />
+                            </ReferenceInput>
                             <TextInput fullWidth={true} source="a_obra_social" label="Obra Social" />
                         </Grid>
                         <Grid item xs={4}>
@@ -304,7 +317,7 @@ export const UserCreate = props => {
                             <TextInput fullWidth={true} label="Nombre" validate={required("Requerido")} source="a_nombrefactura" />
                             <TextInput fullWidth={true} label="Domicilio" validate={required("Requerido")} source="a_domicilio" />
                             <TextInput fullWidth={true} label="Tipo de Responsabilidad" validate={required("Requerido")} source="a_tiporesp" />
-                            <TextInput fullWidth={true} label="CUIT" validate={required("Requerido")} source="a_cuit" />
+                            <NumberInput fullWidth={true} label="CUIT" validate={required("Requerido")} source="a_cuit" />
                             <TextInput fullWidth={true} label="Email" validate={required("Requerido")} source="a_email_factura" />
                         </Grid>
                     </Grid>

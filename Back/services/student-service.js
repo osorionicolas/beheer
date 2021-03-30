@@ -2,6 +2,7 @@
 
 const knex = require('../configs/database')
 const repository = require('../repositories/student-repository')
+const Student = require("../models/Student")
 
 const StudentService = {
     filterQuery (reqQuery, fields){
@@ -26,6 +27,13 @@ const StudentService = {
 
     getCount(){
         return repository.count()
+    },
+
+    createStudent(body){
+        const student = Object.assign(new Student, body)
+        student.a_fecha_inscripcion = new Date().toISOString().slice(0, 10)
+        Object.keys(student).forEach(key => student[key] === undefined ? delete student[key] : {});
+        return repository.insert(student)
     }
 }
 

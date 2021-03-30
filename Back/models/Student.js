@@ -1,0 +1,60 @@
+module.exports = class Student {
+    id
+    a_legajo
+    a_apellido
+    a_nombres
+    a_curso
+    a_tdoc
+    a_dni
+    a_sexo
+    a_nacimiento
+    a_nacionalidad
+    a_colegio
+    a_cant_hnos
+    a_obra_social
+    a_nro_afiliado
+    a_localidad
+    a_fecha_inscripcion
+    a_domicilio
+    a_telefono
+    a_cant_est
+    a_tipo_doc
+    
+    //Facturacion
+    a_domicilio
+    a_nombrefactura
+    a_tiporesp
+    a_cuit
+    a_email_factura
+    
+    //Bonificaciones
+    a_dto_pago
+    a_dto_hno
+    a_beca
+    
+    //Familia
+    a_mama
+    a_mama_ocupacion
+    a_mama_domicilio
+    a_mama_localidad
+    a_dni_mama
+    a_mail_mama
+    a_telefono1
+    a_telefono2
+    a_papa
+    a_papa_ocupacion
+    a_papa_domicilio
+    a_papa_localidad
+    a_dni_papa
+    a_mail_papa
+    a_telefono3
+    a_telefono4
+    a_familiar
+    a_telefono5
+    a_telefono6
+       
+    //Observaciones
+    a_observaciones
+    a_motivo_baja
+    a_baja
+}
