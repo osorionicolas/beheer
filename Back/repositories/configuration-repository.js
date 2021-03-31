@@ -1,22 +1,16 @@
 'use strict'
 
 const knex = require('../configs/database')
-const table = knex('cursos2')
+const table = knex('empresa')
 
 const StudentRepository = {
 
     update(){
         const query = table.update()
     },
-    
-    async insert(course){
-        const query = table.insert(course)
-        const result = await this.execute(query)
-        return result
-    },
 
-    count(){
-        return table.count('*', {as: 'total'})
+    get(){
+        return this.execute(table)
     },
 
     async execute(query){

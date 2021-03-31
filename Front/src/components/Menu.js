@@ -20,21 +20,24 @@ const Menu = ({ onMenuClick, logout }) => {
                 onClick={onMenuClick}
                 sidebarIsOpen={open}
             />
-            {resources.map(resource => (
-                <MenuItemLink
-                    key={resource.name}
-                    to={`/${resource.name}`}
-                    primaryText={
-                        (resource.options && resource.options.label) ||
-                        resource.name
-                    }
-                    leftIcon={
-                        resource.icon ? <resource.icon /> : <DefaultIcon />
-                    }
-                    onClick={onMenuClick}
-                    sidebarIsOpen={open}
-                />
-            ))}
+            {resources.map(resource => {
+                if(resource.name == "configuracion") return
+                return (
+                    <MenuItemLink
+                        key={resource.name}
+                        to={`/${resource.name}`}
+                        primaryText={
+                            (resource.options && resource.options.label) ||
+                            resource.name
+                        }
+                        leftIcon={
+                            resource.icon ? <resource.icon /> : <DefaultIcon />
+                        }
+                        onClick={onMenuClick}
+                        sidebarIsOpen={open}
+                    />
+                )}
+            )}
             <MenuItemLink
                 to="/facturacion"
                 primaryText="Facturación"

@@ -33,7 +33,6 @@ const updateUser = (req, res) => {
 const createUser = async (req, res) => {
     const studentId = await service.createStudent(req.body)
     res.statusCode = 201
-    console.log(studentId)
     res.send(studentId)
 }
 

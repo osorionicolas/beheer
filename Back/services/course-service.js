@@ -2,6 +2,7 @@
 
 const knex = require('../configs/database')
 const repository = require('../repositories/course-repository')
+const Course = require("../models/Course")
 
 const CourseService = {
     filterQuery (value, fields){
@@ -19,6 +20,12 @@ const CourseService = {
 
     getCount(){
         return repository.count()
+    },
+
+    createCourse(){
+        const course = Object.assign(new Course, body)
+        Object.keys(course).forEach(key => course[key] === undefined ? delete course[key] : {});
+        return repository.insert(course)
     }
 }
 

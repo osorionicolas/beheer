@@ -34,8 +34,10 @@ const updateCourse = (req, res) => {
     
 }
 
-const createCourse = (req, res) => {
-
+const createCourse = async (req, res) => {
+    const courseId = await service.createCourse(req.body)
+    res.statusCode = 201
+    res.send(courseId)
 }
 
 module.exports = {

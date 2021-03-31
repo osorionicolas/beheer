@@ -15,6 +15,7 @@ app.use('/', [
 	require('./routes/course-routes'),
 	require('./routes/fee-routes'),
 	require('./routes/invoice-routes'),
+	require('./routes/configuration-routes')
 ])
 
 app.listen(port, hostname, () => {

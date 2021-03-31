@@ -1,35 +1,35 @@
 'use strict'
 
-const invoiceService = require('../services/invoice-service')
+const service = require('../services/invoice-service')
 
 const createInvoice = (req, res) => {
-    invoiceService.createInvoice().then(data => {
+    service.createInvoice().then(data => {
         res.send(data)
     })}
 
 const getLastInvoice = (req, res) => {
-    invoiceService.getLastInvoice().then(data => {
+    service.getLastInvoice().then(data => {
         res.send(data)
     })}
 
 const getInvoiceInfo = (req, res) => {
-    invoiceService.getInvoiceInfo().then(data => {
+    service.getInvoiceInfo().then(data => {
         res.send(data)
     })
 }
 
 const getServerStatus = (req, res) => {
-    invoiceService.getServerStatus().then(data => {
+    service.getServerStatus().then(data => {
         res.send(data)
     })
 }
 
 const generatePDFInvoice = (req, res) => {
-    res.send(invoiceService.generatePDFInvoice())
+    res.send(service.generatePDFInvoice())
 }
 
 const testMethod = (req, res) => {
-    invoiceService.optionTypes().then(data => {
+    service.optionTypes().then(data => {
         res.send(data)
     })
 }

@@ -13,6 +13,10 @@ const StudentRepository = {
         const query = table.insert()
     },
 
+    get(){
+
+    },
+
     count(){
         return table.count('*', {as: 'total'})
     },
